@@ -52,7 +52,16 @@ const createSerializedObject = () => {
 };
 const toBuffer = () => {};
 const sortByProto = (arr) => {
-    return arr.sort();
+    const countDepth = (o) => {
+        let count = 0;
+        if (o.__proto__ === null) {
+            return ++count;
+        } else {
+            return ++count + countDepth(o.__proto__);
+        }
+    }
+
+    return arr.sort((a, b) => countDepth(b) - countDepth(a));
 };
 
 exports.createEnumerableProperty = createEnumerableProperty;
